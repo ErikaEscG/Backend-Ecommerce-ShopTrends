@@ -1,7 +1,8 @@
-const asyncHandler = require('express-async-handler')
-const User = require('../models/usersModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const asyncHandler = require('express-async-handler')
+const User = require('../models/usersModel')
+
 
 
 
@@ -71,9 +72,13 @@ const loginUser = asyncHandler(async (req, res) => {
 
 })
 
-const generateToken = (id_usuario) => {
-    return jwt.sign({ id_usuario }, process.env.JWT_SECRET, {
-        expiresIn: '30m'
+const dataUser = asyncHandler(async (req, res) => {
+    res.status(200).json(req.user)
+})
+
+const generateToken = (id_user) => {
+    return jwt.sign({ id_user }, process.env.JWT_SECRET, {
+        expiresIn: '30d'
     })
 }
 
@@ -81,5 +86,6 @@ const generateToken = (id_usuario) => {
 module.exports = {
     createUser,
     loginUser,
+    dataUser
     
 }
